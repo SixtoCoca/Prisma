@@ -16,7 +16,18 @@ sudo docker run -p 5432:5432 --env POSTGRES_PASSWORD=pass postgres
 ```
 Cambiar en la variable de entorno (.env) la pass y usuario
 
-Crear una migración y aplicar con:
+Cada vez que se cambie el esquema de la base de datos hay que crear una migración. Crear una migración y aplicar con:
 ```bash
 npx prisma migrate dev --preview-feature
+```
+
+Instalar el cliente de prisma
+```bash
+npm install @prisma/client
+```
+
+Una vez instalado el cliente de prisma cada vez que se cambie el esquema de la base de datos se ejecuta con prisma generate
+
+```bash
+npx prisma generate
 ```
