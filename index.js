@@ -43,6 +43,15 @@ server.post("/user/create", async (peticion, respuesta) => {
   }
 });
 
+server.get("/user/search/:id", async (peticion, respuesta) => {
+  const id = peticion.params.id;
+  const encontrado = await prisma.user.findUnique({
+    where: { id: Number(id) },
+    include: { ciudad: { select: { nombre: true, User: true } } },
+  });
+  respuesta.json({ encontrado });
+});
+
 server.listen(8000, () => {
   console.log("Escuchando en el puerto 8000");
 });
