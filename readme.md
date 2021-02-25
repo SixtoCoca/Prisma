@@ -25,9 +25,3 @@ Instalar el cliente de prisma
 ```bash
 npm install @prisma/client
 ```
-
-Una vez instalado el cliente de prisma cada vez que se cambie el esquema de la base de datos se ejecuta con prisma generate
-
-```bash
-npx prisma generate
-```

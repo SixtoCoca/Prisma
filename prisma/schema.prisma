@@ -11,9 +11,16 @@ generator client {
 }
 
 model User {
-  id  Int @id @default(autoincrement())
-  name String
+  id       Int     @id @default(autoincrement())
+  nombre   String
   apellido String
-  age Int
-  ciudad String?
+  edad     Int
+  ciudad   Ciudad? @relation(fields: [ciudadId], references: [id])
+  ciudadId Int?
+}
+
+model Ciudad {
+  id     Int    @id @default(autoincrement())
+  nombre String @unique
+  User   User[]
 }

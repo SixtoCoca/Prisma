@@ -12,16 +12,35 @@ server.get("/user", async (peticion, respuesta) => {
 });
 
 server.post("/user/create", async (peticion, respuesta) => {
-  const usuarioCreado = await prisma.user.create({
-    data: {
-      name: peticion.body.nombre,
-      apellido: peticion.body.apellido,
-      age: Number(peticion.body.edad),
-      ciudad: peticion.body.ciudad,
-    },
-  });
-
-  respuesta.json(usuarioCreado);
+  try {
+    if (peticion.body.ciudad) {
+      const usuarioCreado = await prisma.user.create({
+        data: {
+          nombre: peticion.body.nombre,
+          apellido: peticion.body.apellido,
+          edad: Number(peticion.body.edad),
+          ciudad: {
+            connectOrCreate: {
+              where: { nombre: peticion.body.ciudad },
+              create: { nombre: peticion.body.ciudad },
+            },
+          },
+        },
+      });
+      respuesta.json(usuarioCreado);
+    } else {
+      const usuarioCreado = await prisma.user.create({
+        data: {
+          nombre: peticion.body.nombre,
+          apellido: peticion.body.apellido,
+          edad: Number(peticion.body.edad),
+        },
+      });
+      respuesta.json(usuarioCreado);
+    }
+  } catch (error) {
+    respuesta.send("Error:" + error);
+  }
 });
 
 server.listen(8000, () => {
